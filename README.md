@@ -18,21 +18,18 @@
 
 ## 📌 Overview
 
-Security log analyzer & SIEM-lite (SSH, sudo, web, IOC, timeline)
+OLogX is a security log analyzer (SIEM-lite) that streams auth, syslog, Apache/Nginx, journalctl text, JSON-lines, and key=value logs. It detects brute-force, spray, privilege changes, web probes, and more; matches IOCs; builds timelines and stats; and exports TXT, CSV, or JSON with optional baseline/diff.
 
 ---
 
 ## ✨ Features
 
-- Streaming ingest of auth.log, syslog, secure, Apache/Nginx access + error logs, journalctl text exports, JSON-lines and key=value logs — plain or gzip (.gz), line by line, never fully loaded
-- Parsers — sshd (failed / accepted / invalid user / preauth disconnects), sudo, su, cron, PAM, useradd, groupadd/usermod, combined / common access format, Apache & Nginx error log, JSON lines, key=value
-- Detections — brute-force bursts (threshold/window), password spray across users, success-after-failure, new user / sudo group changes, root SSH login, sudo failures, scanner User-Agents, sensitive path probes (.env, wp-login, admin, .git ...), 4xx/5xx spikes, proxy / CONNECT abuse, off-hours activity, clock skew / out-of-order timestamps
-- IOC matcher — IP / CIDR / domain / hash lists
-- Merged multi-file timeline with host/user/IP/service filters and --since relative or absolute time
-- Stats — top talkers, top URIs, status codes, users, offline geo class (private/public/bogon), ASCII hourly histogram
-- Baseline daily digests + spike diff
-- Export TXT / CSV / JSON with save-location chooser, clipboard copy of critical findings
-- Full CLI mode (--file, --dir, --ssh, --web, --ioc, --since, --json, -o, --fail-on) + interactive menu
+- Streaming ingest of auth.log/syslog/secure, Apache/Nginx access+error, journalctl text, JSON-lines, key=value (plain or .gz)
+- Parsers for sshd, sudo, su, cron, PAM, user/group changes, combined access, and web error formats
+- Detections: brute-force bursts, password spray, success-after-failure, root SSH, sudo failures, scanner UAs, sensitive path probes, 4xx/5xx spikes
+- IOC matcher for IP/CIDR/domain/hash lists; merged multi-file timeline with host/user/IP/service and `--since` filters
+- Stats with top talkers/URIs/status/users, offline geo class, and ASCII hourly histogram
+- Baseline digests + spike diff; TXT/CSV/JSON export; CLI and interactive menu
 
 ---
 
@@ -46,7 +43,10 @@ Security log analyzer & SIEM-lite (SSH, sudo, web, IOC, timeline)
 ## 🚀 Usage
 
 ```bash
-./OLogX
+./OLogX -f /var/log/auth.log --ssh --since 24h
+./OLogX -d ./logs --web --ioc iocs.txt --json -o findings.json
+./OLogX -f access.log --stats --timeline --fail-on high
+./OLogX --help
 ```
 
 ---
